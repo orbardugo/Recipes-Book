@@ -1,9 +1,9 @@
-  <app-header></app-header>
-  <div class="container">
+  <app-header (headerClicked) = "onNevigate($event)"></app-header>
+  <div class="container" >
     <div class="row">
       <div class="col-md-12">
-        <app-recipes></app-recipes>
-        <app-shoppint-list></app-shoppint-list>
+        <app-recipes *ngIf= "nevigateCoice === 'recipes'"></app-recipes>
+        <app-shoppint-list *ngIf= "nevigateCoice === 'shoppingList'"></app-shoppint-list>
       </div>
     </div>
   </div>
