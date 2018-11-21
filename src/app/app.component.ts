@@ -10,6 +10,5 @@ export class AppComponent {
 
   onNevigate(choice: string){
     this.nevigateCoice = choice;
-
   }
 }
