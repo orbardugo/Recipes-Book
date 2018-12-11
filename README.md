@@ -1,4 +1,6 @@
-# PROJECT
+# About the project:
+
+Recipes-Book is a course project of an Angular 6, learned by Maximilian Schwarzmüller in Udemy. It is just an exercise and should be a recipe-book web application. It contains implementations of the most common features of Angular 6.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.2.
 
