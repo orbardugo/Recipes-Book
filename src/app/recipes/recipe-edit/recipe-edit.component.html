@@ -29,14 +29,15 @@
                 type="text"
                 id="imagePath"
                 class="form-control"
-                formControlName="imagePath">
+                formControlName="imagePath"
+                #ImagePath>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
-             <img src="" class="img-responsive">
+             <img [src]="ImagePath.value" class="img-responsive">
             </div>
           </div>
         </div>
@@ -73,7 +74,7 @@
                   formControlName="amount">
               </div>
               <div class="col-xs-2">
-                <button class="btn btn-danger">X</button>
+                <button type="button" class="btn btn-danger" (click)="onDeleteIngredient(i)">X</button>
               </div>
             </div>
             <hr>
