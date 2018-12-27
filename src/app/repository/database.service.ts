@@ -7,19 +7,25 @@ import {map} from "rxjs/operators";
 import {ShoppingListService} from "../shopping-list/shopping-list.service";
 import {ShoppingListComponent} from "../shopping-list/shopping-list.component";
 import {Ingredient} from "../shared/ingredient.model";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable()
 export class DatabaseService {
 
-  constructor( private http: Http, private recipeService: RecipeService, private shoppingListService: ShoppingListService) {}
+  constructor( private http: Http, private recipeService: RecipeService,
+               private shoppingListService: ShoppingListService,
+               private authService: AuthService) {}
 
   storeRecipes() {
-    return this.http.put('https://ng-recipe-book-48366.firebaseio.com/recipes.json',
+    const token = this.authService.getToken();
+    return this.http.put('https://ng-recipe-book-48366.firebaseio.com/recipes.json?auth='+ token,
       this.recipeService.getRecipes());
   }
 
   getRecipes() {
-    return this.http.get('https://ng-recipe-book-48366.firebaseio.com/recipes.json')
+    const token = this.authService.getToken();
+
+    return this.http.get('https://ng-recipe-book-48366.firebaseio.com/recipes.json?auth='+ token)
       .pipe(map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -40,13 +46,15 @@ export class DatabaseService {
   }
 
   storeShoppingList() {
-    return this.http.put('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json',
+    const token = this.authService.getToken();
+    return this.http.put('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token,
       this.shoppingListService.getIngredients());
   }
 
 
   getShoppingList() {
-    return this.http.get('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json').subscribe(
+    const token = this.authService.getToken();
+    return this.http.get('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token).subscribe(
       (response: Response) => {
         const ingredients: Ingredient[] = response.json();
         this.shoppingListService.setShoppingList(ingredients);

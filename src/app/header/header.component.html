@@ -1,16 +1,9 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle"  data-toggle="collapse" (click)="isCollapsed = !isCollapsed"
-                  [attr.aria-expanded]="!isCollapsed"
-                  aria-controls="myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a routerLink="/" class="navbar-brand" >Recipe Book</a>
         </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
+      <div class=" navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>
           <li routerLinkActive="active"><a routerLink="/shopping-list">Shopping List</a></li>
