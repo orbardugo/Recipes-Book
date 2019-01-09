@@ -34,4 +34,8 @@ constructor(private databaseService: DatabaseService,
   logOut() {
       this.authService.signOutUser();
   }
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
 }
