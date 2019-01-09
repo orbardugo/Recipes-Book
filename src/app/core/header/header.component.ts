@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
-import {DatabaseService} from "../repository/database.service";
-import {AuthService} from "../auth/auth.service";
+import {DatabaseService} from "../../repository/database.service";
+import {AuthService} from "../../auth/auth.service";
 
 
 @Component({
