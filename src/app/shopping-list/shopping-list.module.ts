@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {ShoppingListComponent} from "./shopping-list.component";
 import {ShoppingEditComponent} from "./shopping-edit/shopping-edit.component";
-import {ShoppingListRoutingModule} from "./shopping-list-routing.module";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
@@ -13,7 +12,7 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     FormsModule,
-    ShoppingListRoutingModule
+    //ShoppingListRoutingModule
   ]
 })
 export class ShoppingListModule {

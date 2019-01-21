@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import {FormsModule} from "@angular/forms";
 import {CoreModule} from "./core/core.module";
 import {HttpClientModule} from "@angular/common/http";
+import {ShoppingListModule} from "./shopping-list/shopping-list.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     SharedModule,
     AuthModule,
+    ShoppingListModule,
     FormsModule,
     CoreModule
   ],
