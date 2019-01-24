@@ -1,37 +1,39 @@
-import {Component, OnDestroy, OnInit} from "@angular/core"
+import {Component, OnInit} from "@angular/core"
 import { Ingredient } from "../shared/ingredient.model";
-import { ShoppingListService } from "./shopping-list.service";
-import {Route, Router, Routes} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import * as fromShoppingList from './store/shopping-list.reducers'
+import * as ShoppingListActions from "./store/shopping-list.actions";
+
 
 @Component({
-    selector: "app-shoppint-list",
+    selector: "app-shopping-list",
     templateUrl: "./shopping-list.component.html",
 })
-export class ShoppingListComponent implements OnInit, OnDestroy{
-    ingredients: Ingredient[] = [];
-    private  subscription: Subscription;
+export class ShoppingListComponent implements OnInit{
 
 
-    constructor(private shoppingListService: ShoppingListService,
-                private router: Router)
+  shoppingListState: Observable<{ingredients: Ingredient[]}>;
+  //shoppingListState: Ingredient [];
+  //private  subscription: Subscription;
+
+
+    constructor(private store: Store<fromShoppingList.AppState>)
     {
 
     }
 
     ngOnInit(){
-        this.router.navigate(['/shopping-list']);
-        this.ingredients = this.shoppingListService.getIngredients();
-        this.subscription = this.shoppingListService.ingredientsChanged.subscribe(
-            (ingredients: Ingredient[]) => {this.ingredients= ingredients;}
-        )
+      this.shoppingListState = this.store.select('shoppingList');
+      //this.shoppingListState = this.shoppingListService.getIngredients();
+        // this.subscription = this.shoppingListService.ingredientsChanged.subscribe(
+        //     (ingredients: Ingredient[]) => {this.ingredients= ingredients;}
+        // )
     }
 
-  OnEditItem(index: number) {
-      this.shoppingListService.startedEditing.next(index);
+  onEditItem(index: number) {
+      this.store.dispatch(new ShoppingListActions.StartEdit(index));
   }
 
-  ngOnDestroy(): void {
-      this.subscription.unsubscribe();
-  }
+
 }

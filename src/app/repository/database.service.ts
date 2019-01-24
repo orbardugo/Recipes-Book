@@ -2,17 +2,17 @@ import {Recipe} from "../recipes/recipe.model";
 import {Injectable} from "@angular/core";
 import {RecipeService} from "../recipes/recipe.service";
 import {map} from "rxjs/operators";
-import {ShoppingListService} from "../shopping-list/shopping-list.service";
 import {Ingredient} from "../shared/ingredient.model";
 import {AuthService} from "../auth/auth.service";
 import {HttpClient, HttpRequest} from "@angular/common/http";
+import {Store} from "@ngrx/store";
+import {GetIngredientsFromServer} from "../shopping-list/store/shopping-list.actions";
 
 @Injectable()
 export class DatabaseService {
-
   constructor( private httpClient: HttpClient, private recipeService: RecipeService,
-               private shoppingListService: ShoppingListService,
-               private authService: AuthService) {}
+               private authService: AuthService,
+               private store: Store<{shoppingList: {ingredients: Ingredient[]}}>) {}
 
   storeRecipes() {
     //const token = this.authService.getToken();
@@ -42,15 +42,18 @@ export class DatabaseService {
       .subscribe(
       (recipes: Recipe []) => {
         this.recipeService.setRecipes(recipes);
-        console.log(this.recipeService.getRecipes());
+        //console.log(this.recipeService.getRecipes());
       }
     );
   }
 
   storeShoppingList() {
     const token = this.authService.getToken();
+    let ingredients: Ingredient[] = [];
+    this.store.select('shoppingList').subscribe( (data : any) => {ingredients = data.ingredients});
     return this.httpClient.put('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token,
-      this.shoppingListService.getIngredients());
+       ingredients);
+
   }
 
 
@@ -59,7 +62,8 @@ export class DatabaseService {
     return this.httpClient.get<Ingredient[]>('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token).subscribe(
       (ingredients) => {
         //const ingredients: Ingredient[] = response.json();
-        this.shoppingListService.setShoppingList(ingredients);
+        //this.shoppingListService.setShoppingList(ingredients);
+        this.store.dispatch(new GetIngredientsFromServer(ingredients))
       }
     )
   }
