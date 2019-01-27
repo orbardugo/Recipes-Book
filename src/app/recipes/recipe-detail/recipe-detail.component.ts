@@ -6,7 +6,9 @@ import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import {AuthService} from "../../auth/auth.service";
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.actions';
-import * as fromShoppingList from '../../shopping-list/store/shopping-list.reducers';
+import * as fromApp from '../../store/app.reducers';
+import * as fromAuth from "../../auth/store/auth.reducers";
+import {Observable} from "rxjs";
 
 
 
@@ -18,14 +20,20 @@ import * as fromShoppingList from '../../shopping-list/store/shopping-list.reduc
 export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
   id: number;
+  authState: Observable<fromAuth.State>;
+  isAuth: boolean;
   
   constructor(private recipeService: RecipeService,
               private route: ActivatedRoute,
               private  router: Router,
               private authService: AuthService,
-              private store: Store<fromShoppingList.AppState>){}
+              private store: Store<fromApp.AppState>){}
 
   ngOnInit() {
+    this.authState.subscribe( response => {
+      this.isAuth = response.authenticated;
+    });
+
     this.route.params.subscribe(
       (params: Params) => {
           this.id = +params['id'];
@@ -36,7 +44,8 @@ export class RecipeDetailComponent implements OnInit {
 
 
   OnEditRecipe() {
-    if(!this.authService.isAuthenticated())
+
+    if(!this.isAuth)
       this.router.navigate(['signin']);
     else
       this.router.navigate(['edit'], {relativeTo: this.route});

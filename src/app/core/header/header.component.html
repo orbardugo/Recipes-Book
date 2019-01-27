@@ -9,11 +9,11 @@
           <li routerLinkActive="active"><a routerLink="/shopping-list">Shopping List</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <ng-template [ngIf]="!isAuthenticated()">
+          <ng-template [ngIf]="! (authState | async).authenticated">
             <li><a routerLink="/signup"><span class="glyphicon glyphicon-user"></span> Register</a> </li>
             <li><a routerLink="/signin"><span class="glyphicon glyphicon-log-in"></span> Login</a> </li>
           </ng-template>
-          <ng-template [ngIf]="isAuthenticated()">
+          <ng-template [ngIf]="(authState | async).authenticated">
             <li><a style="cursor: pointer" (click)="logOut()">Logout <span class="glyphicon glyphicon-log-out"></span></a> </li>
             <li class="dropdown" appDropdown>
               <a style="cursor: pointer" class="dropdown-toggle" role="button" >Manage <span class="caret" ></span></a>

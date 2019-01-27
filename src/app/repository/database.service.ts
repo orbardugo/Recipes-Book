@@ -48,18 +48,22 @@ export class DatabaseService {
   }
 
   storeShoppingList() {
-    const token = this.authService.getToken();
+    //const token = this.authService.getToken();
     let ingredients: Ingredient[] = [];
     this.store.select('shoppingList').subscribe( (data : any) => {ingredients = data.ingredients});
-    return this.httpClient.put('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token,
-       ingredients);
+    const req = new HttpRequest("PUT", 'https://ng-recipe-book-48366.firebaseio.com/shoppingList.json',
+      ingredients);
+    return this.httpClient.request(req);
+    // return this.httpClient.put('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token,
+    //    ingredients);
 
   }
 
 
   getShoppingList() {
-    const token = this.authService.getToken();
-    return this.httpClient.get<Ingredient[]>('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json?auth='+ token).subscribe(
+    //const token = this.authService.getToken();
+    return this.httpClient.get<Ingredient[]>('https://ng-recipe-book-48366.firebaseio.com/shoppingList.json')
+      .subscribe(
       (ingredients) => {
         //const ingredients: Ingredient[] = response.json();
         //this.shoppingListService.setShoppingList(ingredients);
